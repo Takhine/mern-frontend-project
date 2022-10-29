@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "module": "ES2020",
+        "moduleResolution": "node",
+        "noEmit": true,        
+        "target": "ES6",
+        "baseUrl": "./",
+        "paths": {}
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
