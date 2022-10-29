@@ -6,11 +6,14 @@ import {
   Switch
 } from "react-router-dom";
 import NewPlace from "./places/containers/NewPlace";
+import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import Users from "./user/containers/Users";
 
 function App() {
   return (
     <Router>
+      <MainNavigation />
+      <main>
       <Switch>
         <Route path="/" exact>
           <Users />
@@ -20,6 +23,7 @@ function App() {
         </Route>
         <Redirect to="/" />
       </Switch>
+      </main>
     </Router>
   );
 }
