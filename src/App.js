@@ -9,6 +9,7 @@ import NewPlace from "./places/containers/NewPlace";
 import UpdatePlace from "./places/containers/UpdatePlace";
 import UserPlaces from "./places/containers/UserPlaces";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
+import Auth from "./user/containers/Auth";
 import Users from "./user/containers/Users";
 
 function App() {
@@ -19,6 +20,9 @@ function App() {
       <Switch>
         <Route path="/" exact>
           <Users />
+        </Route>
+        <Route path="/auth" exact>
+          <Auth />
         </Route>
         <Route path="/places/new" exact>
           <NewPlace />
