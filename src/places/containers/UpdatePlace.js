@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Button from "src/shared/components/FormElements/Button";
 import Input from "src/shared/components/FormElements/Input";
+import Card from "src/shared/components/UIElements/Card";
 import { useForm } from "src/shared/hooks/useForm";
 import {
   VALIDATOR_MINLENGTH,
@@ -24,7 +25,7 @@ const DUMMY_PLACES = [
   },
   {
     id: "p2",
-    title: "Empire State Building",
+    title: "Emp. State Building",
     description: "One of the most famous sky scrapers in the world",
     imageUrl: "https://media.timeout.com/images/101705309/image.jpg",
     address: "20 W 34th St, New York, NY 10001",
@@ -37,31 +38,43 @@ const DUMMY_PLACES = [
 ];
 
 export default function UpdatePlace() {
+  const [isLoading, setIsLoading] = useState(true);
   const { placeId } = useParams();
+
+  const [formState, onInputChange, setFormData] = useForm(
+    {
+      title: {
+        value: "",
+        isValid: false,
+      },
+      description: {
+        value: "",
+        isValid: false,
+      },
+    },
+    false
+  );
 
   const identifiedPlace = DUMMY_PLACES.find((p) => p.id === placeId);
 
-  const [formState, onInputChange] = useForm(
-    {
-      title: {
-        value: identifiedPlace.title,
-        isValid: true,
-      },
-      description: {
-        value: identifiedPlace.description,
-        isValid: true,
-      },
-    },
-    true
-  );
-
-  if (!identifiedPlace) {
-    return (
-      <div className="center">
-        <h2>Could not find place</h2>
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (identifiedPlace) {
+      setFormData(
+        {
+          title: {
+            value: identifiedPlace.title,
+            isValid: true,
+          },
+          description: {
+            value: identifiedPlace.description,
+            isValid: true,
+          },
+        },
+        true
+      );
+    }
+    setIsLoading(false);
+  }, [setFormData, identifiedPlace]);
 
   const onPlaceUpdateSubmit = (event) => {
     event.preventDefault();
@@ -69,6 +82,23 @@ export default function UpdatePlace() {
     console.log({ formState });
   };
 
+  if (!identifiedPlace) {
+    return (
+      <div className="center">
+        <Card>
+        <h2>Could not find place</h2>
+        </Card>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="center">
+        <h2>Loading</h2>
+      </div>
+    );
+  }
 
   return (
     <form className="place-form" onSubmit={onPlaceUpdateSubmit}>
